@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/exam-engine/vite.svg" />
+    <link rel="manifest" href="/exam-engine/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Offline-capable exam simulation engine" />
+    <meta name="theme-color" content="#0066cc" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Exam Engine</title>
+    <script type="module" crossorigin src="/exam-engine/assets/index-DILEcQSR.js"></script>
+    <link rel="stylesheet" crossorigin href="/exam-engine/assets/index-Bj6EPXEN.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // Register service worker for offline support (non-intrusive)
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/exam-engine/sw.js').catch(err => {
+          console.log('Service Worker registration failed:', err)
+        })
+      }
+    </script>
+  </body>
+</html>
