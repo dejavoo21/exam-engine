@@ -6,8 +6,9 @@ import { Question, ExamSet } from './types'
 import * as mammoth from 'mammoth'
 import * as pdfjsLib from 'pdfjs-dist'
 
-// Set up PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`
+// Set up PDF.js worker - point to bundled worker in public folder
+const BASE_URL = (import.meta as any)?.env?.BASE_URL || '/'
+pdfjsLib.GlobalWorkerOptions.workerSrc = `${BASE_URL}pdf.worker.min.js`
 
 export interface ParseResult {
   questions: Question[]
