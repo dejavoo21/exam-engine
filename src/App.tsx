@@ -83,6 +83,10 @@ export default function App() {
     })
   }
 
+  const navigateToPage = (page: string | PageType, examSet?: ExamSet, session?: ExamSession, result?: ExamResult) => {
+    navigateTo(page as PageType, examSet, session, result)
+  }
+
   const handleExamSetsUpdated = async () => {
     const examSets = await getAllExamSets()
     setState(prev => ({ ...prev, examSets }))
@@ -99,37 +103,37 @@ export default function App() {
       </header>
 
       <main className="app-main">
-        {state.currentPage === 'home' && <HomePage onNavigate={navigateTo} />}
+        {state.currentPage === 'home' && <HomePage onNavigate={navigateToPage} />}
         {state.currentPage === 'exam-list' && (
-          <ExamListPage examSets={state.examSets} onNavigate={navigateTo} onUpdated={handleExamSetsUpdated} />
+          <ExamListPage examSets={state.examSets} onNavigate={navigateToPage} onUpdated={handleExamSetsUpdated} />
         )}
-        {state.currentPage === 'import' && <ImportPage onNavigate={navigateTo} onUpdated={handleExamSetsUpdated} />}
+        {state.currentPage === 'import' && <ImportPage onNavigate={navigateToPage} onUpdated={handleExamSetsUpdated} />}
         {state.currentPage === 'preview-editor' && state.currentExamSet && (
           <PreviewEditorPage
             examSet={state.currentExamSet}
-            onNavigate={navigateTo}
+            onNavigate={navigateToPage}
             onUpdated={handleExamSetsUpdated}
           />
         )}
         {state.currentPage === 'exam-setup' && state.currentExamSet && (
-          <ExamSetupPage examSet={state.currentExamSet} onNavigate={navigateTo} />
+          <ExamSetupPage examSet={state.currentExamSet} onNavigate={navigateToPage} />
         )}
         {state.currentPage === 'exam-mode' && state.currentExamSet && state.currentSession && (
           <ExamModePage
             examSet={state.currentExamSet}
             session={state.currentSession}
-            onNavigate={navigateTo}
+            onNavigate={navigateToPage}
             onSessionUpdate={(session: ExamSession) => setState(prev => ({ ...prev, currentSession: session }))}
           />
         )}
         {state.currentPage === 'results' && state.currentResult && (
-          <ResultsPage result={state.currentResult} onNavigate={navigateTo} />
+          <ResultsPage result={state.currentResult} onNavigate={navigateToPage} />
         )}
         {state.currentPage === 'analytics' && state.currentExamSet && (
-          <AnalyticsPage examSet={state.currentExamSet} onNavigate={navigateTo} />
+          <AnalyticsPage examSet={state.currentExamSet} onNavigate={navigateToPage} />
         )}
         {state.currentPage === 'practice' && state.currentExamSet && (
-          <PracticePage examSet={state.currentExamSet} onNavigate={navigateTo} />
+          <PracticePage examSet={state.currentExamSet} onNavigate={navigateToPage} />
         )}
       </main>
 

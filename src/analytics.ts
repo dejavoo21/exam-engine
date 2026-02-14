@@ -6,7 +6,8 @@ import {
   getLatestExamResults,
   getQuestionStatsByExamSet,
   saveQuestionStats,
-  getAttemptRecordsByExamSet
+  getAttemptRecordsByExamSet,
+  getDB
 } from './db'
 import { ExamResult, QuestionStats, AttemptRecord, Question } from './types'
 import { generateId } from './utils'
@@ -51,12 +52,15 @@ export async function recordAttempt(result: ExamResult): Promise<void> {
  * Update question statistics based on exam result
  */
 export async function updateQuestionStats(result: ExamResult, questions: Question[]): Promise<void> {
+  const dbInstance = await getDB()
   for (const question of questions) {
-    const existingStats = null // await getQuestionStats(result.examSetId, question.id)
+    const rawStats = await dbInstance.get('questionStats', `${result.examSetId}:${question.id}`)
+    const existingStats = rawStats as QuestionStats | null
 
     const wasCorrect = result.answers[question.id] === question.options.find(o => o.isCorrect)?.id
 
     const stats: QuestionStats = {
+      id: `${result.examSetId}:${question.id}`,
       questionId: question.id,
       examSetId: result.examSetId,
       timesAttempted: (existingStats?.timesAttempted ?? 0) + 1,
@@ -67,7 +71,7 @@ export async function updateQuestionStats(result: ExamResult, questions: Questio
       isFlagged: result.flagged.includes(question.id)
     }
 
-    await saveQuestionStats(stats)
+    await dbInstance.put('questionStats', stats)
   }
 }
 
@@ -137,7 +141,9 @@ export async function getQuestionAnalytics(
   examSetId: string,
   questionId: string
 ): Promise<QuestionAnalytics | null> {
-  const stats = null // await getQuestionStats(examSetId, questionId)
+  const dbInstance = await getDB()
+  const rawStats = await dbInstance.get('questionStats', `${examSetId}:${questionId}`)
+  const stats = rawStats as QuestionStats | null
 
   if (!stats) {
     return null

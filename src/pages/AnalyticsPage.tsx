@@ -94,7 +94,7 @@ export default function AnalyticsPage({ examSet, onNavigate }: AnalyticsPageProp
             {weakQuestions.map((q, idx) => (
               <div key={idx} className="weak-question">
                 <h4>Q{q.number}: {q.prompt.substring(0, 80)}...</h4>
-                <p>{q.options.filter(o => o.isCorrect)[0]?.text}</p>
+                <p>{q.options.filter((o: any) => o.isCorrect)[0]?.text}</p>
               </div>
             ))}
           </div>

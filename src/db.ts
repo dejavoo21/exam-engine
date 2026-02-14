@@ -31,7 +31,7 @@ export async function initializeDB(): Promise<IDBPDatabase> {
 
       // QuestionStats store
       if (!db.objectStoreNames.contains('questionStats')) {
-        const statsStore = db.createObjectStore('questionStats', { keyPath: 'id' }, { keyPath: 'questionId' })
+        const statsStore = db.createObjectStore('questionStats', { keyPath: 'id' })
         statsStore.createIndex('examSetId', 'examSetId', { unique: false })
         statsStore.createIndex('questionId', 'questionId', { unique: false })
       }

@@ -184,7 +184,7 @@ export function parseQuestionRange(rangeStr: string): number[] {
  * Get base path for GitHub Pages
  */
 export function getBasePath(): string {
-  const base = import.meta.env.BASE_URL || '/'
+  const base = (import.meta as any).env?.BASE_URL || '/'
   return base
 }
 

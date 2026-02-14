@@ -70,6 +70,7 @@ export interface ExamResult {
 }
 
 export interface QuestionStats {
+  id: string // examSetId:questionId
   questionId: string
   examSetId: string
   timesAttempted: number
