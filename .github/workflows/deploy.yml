@@ -28,24 +28,10 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Deploy to GitHub Pages using GitHub CLI
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-        run: |
-          # Configure git
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Create and switch to gh-pages branch
-          git checkout --orphan gh-pages
-          git rm -rf .
-          
-          # Copy dist files to root
-          cp -r dist/* .
-          rm -rf dist
-          
-          # Commit and push
-          git add .
-          git commit -m "Deploy: Automatic build from main branch"
-          git push origin gh-pages --force
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.6.3
+        with:
+          branch: gh-pages
+          folder: dist
+          clean: true
+          single-commit: true
